@@ -46,7 +46,6 @@ public class MenuService {
                     }
                 } else {
                     System.out.print(colorize(" " , BLACK_TEXT(), BRIGHT_WHITE_BACK()));
-//                    System.out.print(" ");
                 }
             }
         }

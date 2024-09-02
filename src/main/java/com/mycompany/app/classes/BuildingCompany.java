@@ -1,6 +1,11 @@
 package com.mycompany.app.classes;
 
+import com.mycompany.app.classes.People.Client;
+import com.mycompany.app.classes.People.Person;
+import com.mycompany.app.classes.People.Worker;
+import com.mycompany.app.classes.projects.types.Structure;
 import com.mycompany.app.classes.services.*;
+import com.mycompany.app.enums.TypeOfPerson;
 
 import java.util.Arrays;
 
@@ -28,6 +33,7 @@ public final class BuildingCompany {
     StructureService structureSrc = new StructureService();
     ProjectService projectSrv = new ProjectService();
     FileService fileSrv = new FileService();
+    PersonService personSrv = new PersonService();
 
     public void startProgram() {
         instanceSrv.instantiateAll();
@@ -39,6 +45,8 @@ public final class BuildingCompany {
     }
 
     private void handleOptions() {
+        Structure structure = null;
+        Person person = null;
         switch (inputSrv.getAns()) {
             case AMD_OPTION:
                 do {
@@ -46,7 +54,13 @@ public final class BuildingCompany {
                 inputSrv.setIntAns(Arrays.asList( PERSON_OPTION,  STRUCTURE_OPTION, EXIT_OPTION));
                     switch (inputSrv.getAns()){
                         case  PERSON_OPTION:
-                            //TODO AMD Persons
+                            person = personSrv.createPerson();
+                            if (person.getType() == TypeOfPerson.CLIENT)
+                                DefaultDataService.getClients().add((Client) person);
+                            else
+                                DefaultDataService.getWorkers().add((Worker) person);
+
+                            System.out.println(DefaultDataService.getWorkers().toArray()[DefaultDataService.getWorkers().size()-1]);
                             break;
                         case  STRUCTURE_OPTION:
                             //TODO AMD structures
@@ -65,8 +79,10 @@ public final class BuildingCompany {
                     do {
                         menuSrv.printMenu("Projects", new String[]{"Begin project", "Exit"});
                         inputSrv.setIntAns(Arrays.asList(BEGIN_PROJECT_OPTION_SUBMENU ,EXIT_PROJECT_SUBMENU));
-                        if (inputSrv.getAns() == 0)
-                            structureSrc.createStructure();
+                        if (inputSrv.getAns() == 0){
+                            structure = structureSrc.createStructure();
+                            DefaultDataService.getStructures().add(structure);
+                        }
                     }while (inputSrv.getAns() != EXIT_PROJECT_SUBMENU);
                 break;
             case MANAGE_PROJECT_OPTION:

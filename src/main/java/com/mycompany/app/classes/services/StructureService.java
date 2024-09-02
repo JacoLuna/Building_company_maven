@@ -26,7 +26,6 @@ public class StructureService {
             structure = createStructure(typeOfProjects[projectIndex], squareMeters, typeOfSoil);
             if (structure != null) {
                 System.out.println(structure.printInformation());
-                DefaultDataService.structures.add(structure);
             }
         }
         return structure;

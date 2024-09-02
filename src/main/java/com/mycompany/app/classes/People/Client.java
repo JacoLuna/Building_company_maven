@@ -2,6 +2,7 @@ package com.mycompany.app.classes.People;
 
 import com.mycompany.app.classes.interfaces.IHasProjects;
 import com.mycompany.app.classes.projects.Project;
+import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ import java.util.LinkedList;
 public class Client extends Person implements IHasProjects {
     boolean isEnterprise;
     int amountOfProjects;
-    public Client(String name, String lastName, String country, LocalDate BDay, boolean enterprise) {
+    public Client(String name, String lastName, Countries country, LocalDate BDay, boolean enterprise) {
         super(name, lastName, country, BDay);
         super.type = TypeOfPerson.CLIENT;
         this.isEnterprise = enterprise;

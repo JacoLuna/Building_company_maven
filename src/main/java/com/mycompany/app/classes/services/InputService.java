@@ -67,7 +67,7 @@ public class InputService {
         boolean isValid = false;
         do {
             try {
-                    System.out.print(prompt);
+                    CONSOLE.info(prompt);
                     intAns = keyboard.nextInt();
                     if (intAns < minValue || intAns > maxValue ){
                         throw new MenuException("ERROR Option not available");
@@ -104,7 +104,7 @@ public class InputService {
     public float setFloatAns(String prompt, List<Float> ansArray) {
         try {
             do {
-                System.out.print(prompt);
+                CONSOLE.info(prompt);
                 floatAns = keyboard.nextFloat();
                 if (!ansArray.contains(floatAns)) {
                     System.out.println("ERROR Option not available");
@@ -129,18 +129,26 @@ public class InputService {
         return floatAns;
     }
     public float setFloatAns(String prompt, float minValue, float maxValue) {
-        try {
-            do {
-                System.out.print(prompt);
-                floatAns = keyboard.nextFloat();
+        boolean isValid = false;
+        do {
+            try {
+                CONSOLE.info(prompt);
+                    floatAns = keyboard.nextFloat();
+                    if (floatAns > minValue && floatAns < maxValue) {
+                        System.out.println("ERROR Option not available");
+                        floatAns = -1;
+                    }
+                isValid = true;
                 if (floatAns > minValue && floatAns < maxValue) {
-                    System.out.println("ERROR Option not available");
-                    floatAns = -1;
+                    throw new MenuException("ERROR Option not available");
                 }
-            } while (intAns == -1);
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
+            }catch (InputMismatchException | MenuException e){
+                LOGGER.error(e);
+                keyboard.next();
+            }catch (Exception e){
+                LOGGER.error("Unexpected error " + e);
+            }
+        }while (!isValid);
         return floatAns;
     }
     public float setFloatAns(float minValue, float maxValue) {
@@ -185,7 +193,10 @@ public class InputService {
         System.out.println(prompt);
         return keyboard.next();
     }
-
+    public LocalDate readValidDate(String prompt) {
+        System.out.println(prompt);
+        return readValidDate();
+    }
     public LocalDate readValidDate() {
         int year, month, day;
         boolean validDate = false;

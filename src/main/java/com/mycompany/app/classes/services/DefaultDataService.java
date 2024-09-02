@@ -5,6 +5,8 @@ import com.mycompany.app.classes.People.Person;
 import com.mycompany.app.classes.People.Worker;
 import com.mycompany.app.classes.projects.Project;
 import com.mycompany.app.classes.projects.types.*;
+import com.mycompany.app.enums.Countries;
+import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.TypeOfProject;
 import com.mycompany.app.enums.TypeOfSoil;
 
@@ -13,27 +15,26 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class DefaultDataService {
-    static Person[] clients = new Client[5];
-    static Person[] workers = new Worker[5];
+    static Collection<Client> clients;
+    static Collection<Worker> workers;
     static Collection<Structure> structures;
     static ArrayList<Project> projects;
 
     public void instantiateAll(){
-        createClients();
-        createWorkers();
+        clients = createClients();
+        workers = createWorkers();
         structures = createStructures();
         projects = createProjects();
     }
-    public void createClients(){
-        for (int i = 0; i < 5; i++) {
-            clients[i] = new Client("clients_name_" + i,"clients_lastName_" + i,"clients_country_" + i, LocalDate.of(1990, 8, 5),false);
-        }
+    public Collection<Client> createClients(){
+        return new ArrayList<Client>(){{
+            add(new Client("clients_name_","clients_lastName_", Countries.CHINA, LocalDate.of(1990, 8, 5),false));
+        }};
     }
-    public void createWorkers(){
-        for (int i = 0; i < 5; i++) {
-            workers[i] = new Worker("worker_name_" + i,"worker_lastName_" + i,"worker_country_" + i, LocalDate.of(1990, 8, 5), 1500 ,"junior");
-        }
-
+    public Collection<Worker> createWorkers(){
+        return new ArrayList<Worker>(){{
+            add(new Worker("worker_name_","worker_lastName_",Countries.ARGENTINA, LocalDate.of(1990, 8, 5), 1500 , Experience.JUNIOR));
+        }};
     }
     public Collection<Structure> createStructures(){
         return new ArrayList<Structure>(){{
@@ -46,15 +47,15 @@ public class DefaultDataService {
 
     public ArrayList<Project> createProjects(){
         return new ArrayList<Project>(){{
-            add(new Project(LocalDate.of(2000,11,1), LocalDate.of(2001,11,1), TypeOfProject.HOUSE, "test project", (Client) clients[0]));
+            add(new Project(LocalDate.of(2000,11,1), LocalDate.of(2001,11,1), TypeOfProject.HOUSE, "test project", (Client) clients.toArray()[0]));
         }};
     }
 
-    public static Person[] getClients() {
+    public static Collection<Client> getClients() {
         return clients;
     }
 
-    public static Person[] getWorkers() {
+    public static Collection<Worker> getWorkers() {
         return workers;
     }
 

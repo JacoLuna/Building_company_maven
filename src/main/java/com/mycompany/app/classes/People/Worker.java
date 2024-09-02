@@ -3,6 +3,8 @@ package com.mycompany.app.classes.People;
 import com.mycompany.app.classes.Exceptions.ProjectListException;
 import com.mycompany.app.classes.interfaces.IHasProjects;
 import com.mycompany.app.classes.projects.Project;
+import com.mycompany.app.enums.Countries;
+import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.ProjectListExceptionCode;
 import com.mycompany.app.enums.TypeOfPerson;
 import org.apache.logging.log4j.LogManager;
@@ -12,8 +14,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Worker extends Employee implements IHasProjects {
-    private static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
-    public Worker(String name, String lastName, String country, LocalDate BDay, int salary, String experience) {
+    public Worker(String name, String lastName, Countries country, LocalDate BDay, float salary, Experience experience) {
         super(name, lastName, country, BDay, salary, experience);
         super.type = TypeOfPerson.WORKER;
     }

@@ -2,24 +2,28 @@ package com.mycompany.app.classes.People;
 
 import com.mycompany.app.classes.interfaces.Identifiable;
 import com.mycompany.app.classes.interfaces.Printable;
+import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 
 public abstract class Person implements Printable, Identifiable {
+    protected static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
     protected TypeOfPerson type;
     private static int globalId;
     protected int id;
     public String name;
     public String lastName;
-    protected String country;
+    protected Countries country;
     LocalDate BDay;
 
     static {
         globalId = 0;
     }
 
-    public Person(String name, String lastName, String country, LocalDate BDay) {
+    public Person(String name, String lastName, Countries country, LocalDate BDay) {
         setId();
         this.name = name;
         this.lastName = lastName;
@@ -32,6 +36,10 @@ public abstract class Person implements Printable, Identifiable {
     @Override
     public final int getId() {
         return id;
+    }
+
+    public TypeOfPerson getType() {
+        return type;
     }
 
     //START SETTERS
