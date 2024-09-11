@@ -3,9 +3,11 @@ package com.mycompany.app.classes.projects.types;
 import com.mycompany.app.classes.interfaces.Identifiable;
 import com.mycompany.app.classes.interfaces.Printable;
 import com.mycompany.app.enums.TypeOfProject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class Structure implements Printable, Identifiable {
-
+    protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
     private static int globalId;
     protected int id;
     protected TypeOfProject name;
@@ -40,6 +42,10 @@ public abstract class Structure implements Printable, Identifiable {
 
     protected String generalInfo(){
         return " and " + squareMeters + " square meters" + " with a price of " + price + "$";
+    }
+
+    public static void printThing(Printable thing){
+        thing.printInformation();
     }
 
     @Override

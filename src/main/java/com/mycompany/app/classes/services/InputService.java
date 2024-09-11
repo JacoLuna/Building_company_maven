@@ -4,7 +4,6 @@ import com.mycompany.app.classes.Exceptions.MenuException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.event.KeyEvent;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
@@ -16,7 +15,7 @@ public class InputService {
     private static final Logger FILE = LogManager.getLogger("FileOnlyLogger");
     private static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
     private static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
-    Scanner keyboard = new Scanner(System.in);
+    public Scanner keyboard = new Scanner(System.in);
     private int intAns;
     private float floatAns;
     private long longAns;
@@ -36,8 +35,7 @@ public class InputService {
                     isValid = true;
             }catch (InputMismatchException | MenuException e){
                 CONSOLE_ERROR.error(e);
-                FILE.error(e);
-                keyboard.next();
+                keyboard.nextLine();
             }catch (Exception e){
                   LOGGER.error(e);
                   return -1;
@@ -55,8 +53,8 @@ public class InputService {
                 }
                 isValid = true;
             }catch (InputMismatchException | MenuException e){
-                LOGGER.error(e);
-                keyboard.next();
+                CONSOLE_ERROR.error(e);
+                keyboard.nextLine();
             } catch (Exception e){
                 LOGGER.error("Unexpected error " + e);
             }
@@ -66,16 +64,16 @@ public class InputService {
     public int setIntAns(String prompt, int minValue, int maxValue) {
         boolean isValid = false;
         do {
+            CONSOLE.info(prompt);
             try {
-                    CONSOLE.info(prompt);
                     intAns = keyboard.nextInt();
                     if (intAns < minValue || intAns > maxValue ){
                         throw new MenuException("ERROR Option not available");
                     }
                     isValid = true;
             }catch (InputMismatchException | MenuException e){
-                LOGGER.error(e);
-                keyboard.next();
+                CONSOLE_ERROR.error(e);
+                keyboard.nextLine();
             }catch (Exception e){
                 LOGGER.error("Unexpected error " + e);
             }
@@ -92,8 +90,8 @@ public class InputService {
                 }
                 isValid = true;
             }catch (InputMismatchException | MenuException e){
-                LOGGER.error(e);
-                keyboard.next();
+                CONSOLE_ERROR.error(e);
+                keyboard.nextLine();
             }catch (Exception e){
                 LOGGER.error("Unexpected error " + e);
             }
@@ -133,18 +131,14 @@ public class InputService {
         do {
             try {
                 CONSOLE.info(prompt);
-                    floatAns = keyboard.nextFloat();
-                    if (floatAns > minValue && floatAns < maxValue) {
-                        System.out.println("ERROR Option not available");
-                        floatAns = -1;
-                    }
-                isValid = true;
-                if (floatAns > minValue && floatAns < maxValue) {
+                floatAns = keyboard.nextFloat();
+                if (floatAns < minValue || floatAns > maxValue) {
                     throw new MenuException("ERROR Option not available");
                 }
+                isValid = true;
             }catch (InputMismatchException | MenuException e){
                 LOGGER.error(e);
-                keyboard.next();
+                keyboard.nextLine();
             }catch (Exception e){
                 LOGGER.error("Unexpected error " + e);
             }
@@ -152,15 +146,21 @@ public class InputService {
         return floatAns;
     }
     public float setFloatAns(float minValue, float maxValue) {
-        try {
-            floatAns = keyboard.nextFloat();
-            if (floatAns < minValue || floatAns > maxValue) {
-                System.out.println("ERROR Option not available");
-                floatAns = -1;
+        boolean isValid = false;
+        do {
+            try {
+                floatAns = keyboard.nextFloat();
+                if (floatAns < minValue || floatAns > maxValue) {
+                    throw new MenuException("ERROR Option not available");
+                }
+                isValid = true;
+            }catch (InputMismatchException | MenuException e){
+                LOGGER.error(e);
+                keyboard.nextLine();
+            }catch (Exception e){
+                LOGGER.error("Unexpected error " + e);
             }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
+        }while (!isValid);
         return floatAns;
     }
 
@@ -191,7 +191,7 @@ public class InputService {
 
     public String stringAns(String prompt){
         System.out.println(prompt);
-        return keyboard.next();
+        return keyboard.nextLine();
     }
     public LocalDate readValidDate(String prompt) {
         System.out.println(prompt);
@@ -215,22 +215,4 @@ public class InputService {
         }
         return date;
     }
-
-    public void arrowKeysInput(KeyEvent event){
-        switch (event.getKeyCode()){
-            case KeyEvent.VK_UP:
-                System.out.println("UP");
-                break;
-            case KeyEvent.VK_DOWN:
-                System.out.println("DOW");
-                break;
-            case KeyEvent.VK_RIGHT:
-                System.out.println("RIGHT");
-                break;
-            case KeyEvent.VK_LEFT:
-                System.out.println("LEFT");
-                break;
-        }
-    }
-
 }

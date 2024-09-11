@@ -13,7 +13,7 @@ public final class Pool extends Structure {
     }
 
     @Override
-    public String printInformation() {
-        return "Pool containing:" + depth + " of depth, a temperature of " + temperature + "°C" + super.generalInfo();
+    public void printInformation() {
+        CONSOLE.info("Pool containing:" + depth + " of depth, a temperature of " + temperature + "°C" + super.generalInfo());
     }
 }

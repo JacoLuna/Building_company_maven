@@ -13,7 +13,19 @@ public final class House extends Structure {
     }
 
     @Override
-    public String printInformation() {
-        return "House containing:" + rooms + " rooms " + bathrooms + " bathrooms" + super.generalInfo();
+    public void printInformation() {
+        CONSOLE.info("House containing:" + rooms + " rooms " + bathrooms + " bathrooms" + super.generalInfo());
+    }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "rooms=" + rooms +
+                ", bathrooms=" + bathrooms +
+                ", id=" + id +
+                ", name=" + name +
+                ", price=" + price +
+                ", squareMeters=" + squareMeters +
+                '}';
     }
 }

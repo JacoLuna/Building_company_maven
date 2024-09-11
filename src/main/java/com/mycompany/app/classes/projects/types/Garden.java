@@ -14,7 +14,7 @@ public final class Garden extends Structure {
     }
 
     @Override
-    public String printInformation() {
-        return "Garde containing:" + typeOfSoil.label + " soil " + squareMetersOfSoil + " square meters of soil" + super.generalInfo();
+    public void printInformation() {
+        CONSOLE.info("Garde containing:" + typeOfSoil.label + " soil " + squareMetersOfSoil + " square meters of soil" + super.generalInfo());
     }
 }

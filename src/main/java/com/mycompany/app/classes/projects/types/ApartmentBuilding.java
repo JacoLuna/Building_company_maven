@@ -13,7 +13,7 @@ public final class ApartmentBuilding extends Structure {
     }
 
     @Override
-    public String printInformation() {
-        return "Apartment building containing:" + storeys + " storeys " + ((MRP)?"a multipurpose room":"") + super.generalInfo();
+    public void printInformation() {
+        CONSOLE.info("Apartment building containing:" + storeys + " storeys " + ((MRP)?"a multipurpose room":"") + super.generalInfo());
     }
 }

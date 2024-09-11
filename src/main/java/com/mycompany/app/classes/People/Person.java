@@ -1,6 +1,8 @@
 package com.mycompany.app.classes.People;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mycompany.app.classes.interfaces.Identifiable;
+import com.mycompany.app.classes.interfaces.JsonStorable;
 import com.mycompany.app.classes.interfaces.Printable;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
@@ -9,8 +11,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 
-public abstract class Person implements Printable, Identifiable {
+public abstract class Person implements Printable, Identifiable, JsonStorable {
+    protected static ObjectMapper objectMapper = new ObjectMapper();
     protected static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
+    protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
     protected TypeOfPerson type;
     private static int globalId;
     protected int id;
@@ -23,6 +27,8 @@ public abstract class Person implements Printable, Identifiable {
         globalId = 0;
     }
 
+    public Person() {
+    }
     public Person(String name, String lastName, Countries country, LocalDate BDay) {
         setId();
         this.name = name;
@@ -30,6 +36,7 @@ public abstract class Person implements Printable, Identifiable {
         this.country = country;
         this.BDay = BDay;
     }
+
     public static int getGlobalId() {
         return globalId;
     }
@@ -41,7 +48,12 @@ public abstract class Person implements Printable, Identifiable {
     public TypeOfPerson getType() {
         return type;
     }
-
+    public Countries getCountry(){
+        return country;
+    }
+    public LocalDate getBDay(){
+        return BDay;
+    }
     //START SETTERS
     private static void setGlobalId() {
         Person.globalId++;
@@ -80,7 +92,7 @@ public abstract class Person implements Printable, Identifiable {
                 ", id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", country='" + country + '\'' +
+                ", country='" + country.name + '\'' +
                 ", BDay=" + BDay +
                 '}';
 

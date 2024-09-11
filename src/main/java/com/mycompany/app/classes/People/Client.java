@@ -5,6 +5,8 @@ import com.mycompany.app.classes.projects.Project;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -18,13 +20,26 @@ public class Client extends Person implements IHasProjects {
         this.amountOfProjects = 0;
     }
 
+    public boolean isEnterprise() {
+        return isEnterprise;
+    }
+
+    public int getAmountOfProjects() {
+        return amountOfProjects;
+    }
+
     @Override
-    public String printInformation() {
-        return "name: " + name +
-                "lastName: " + lastName +
-                "country: " + country +
-                "BDay: " + BDay +
-                "enterprise: " + ((isEnterprise)?"yes":"no");
+    public Client readJsonFile(String path){
+        return null;
+    }
+
+    @Override
+    public void printInformation() {
+        CONSOLE.info("name: " + name +
+                    " lastName: " + lastName +
+                    " country: " + country +
+                    " BDay: " + BDay +
+                    " enterprise: " + ((isEnterprise)?"yes":"no"));
     }
 
     @Override

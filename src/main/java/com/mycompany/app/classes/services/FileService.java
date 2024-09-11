@@ -1,9 +1,10 @@
 package com.mycompany.app.classes.services;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.app.classes.People.Worker;
+import com.mycompany.app.classes.interfaces.JsonStorable;
+
+import java.io.*;
 
 public class FileService {
 
@@ -19,4 +20,16 @@ public class FileService {
             System.out.println(ex.getMessage());
         }
     }
+    public void writeFile(String path, String content){
+        try {
+            FileWriter file = new FileWriter(path);
+            file.write(content);
+            file.flush();
+            file.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

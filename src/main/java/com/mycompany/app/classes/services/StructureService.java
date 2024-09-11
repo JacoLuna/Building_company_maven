@@ -18,15 +18,17 @@ public class StructureService {
         String[] typeOfSoil = Arrays.stream(TypeOfSoil.values()).map(Enum::name).toArray(String[]::new);
         int projectIndex;
         long squareMeters;
-        Structure structure = null;
+        Structure structure;
 
         projectIndex = getProjectIndex(typeOfProjects);
         if (projectIndex != -1) {
             squareMeters = getSquareMeters();
             structure = createStructure(typeOfProjects[projectIndex], squareMeters, typeOfSoil);
             if (structure != null) {
-                System.out.println(structure.printInformation());
+                structure.printInformation();
             }
+        } else {
+            structure = null;
         }
         return structure;
     }

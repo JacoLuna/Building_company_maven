@@ -43,28 +43,29 @@ public class PersonService {
         return indexList;
     }
 
-    private Employee createEmployee(String name,String lastName,Countries country,LocalDate BDay, TypeOfPerson typeOfPerson){
+    private Worker createEmployee(String name,String lastName,Countries country,LocalDate BDay, TypeOfPerson typeOfPerson) {
         String[] experience = Arrays.stream(Experience.values()).map(Enum::name).toArray(String[]::new);
         float salary;
         int experienceIndex;
-
+        Worker worker;
         String prompt = "experience level: ";
         menuSrv.printMenu(prompt, experience, prompt.length() * 2);
         experienceIndex = inputSrv.setIntAns(createIndexList(experience.length));
-        salary = inputSrv.setFloatAns("Salary: ",999,10000);
-        if (typeOfPerson.equals(TypeOfPerson.ASSOCIATE)){
-            return new Associate(name,lastName,country,BDay,salary,Experience.valueOf(experience[experienceIndex]));
-        }else {
-            return new Worker(name,lastName,country,BDay,salary,Experience.valueOf(experience[experienceIndex]));
-        }
+        salary = inputSrv.setFloatAns("Salary: ", 0, 100000000);
+        worker = new Worker(name,lastName,country,BDay,salary,Experience.valueOf(experience[experienceIndex]));
+        worker.printInformation();
+        return worker;
     }
     private Client createClient(String name, String lastName, Countries country, LocalDate BDay){
+        Client client;
         boolean isEnterprise = false;
         String prompt = "is the client and enterprise: ";
         menuSrv.printMenu(prompt, new String[]{"yes","no"}, prompt.length()*2);
         if (inputSrv.setIntAns(new ArrayList<>(){{add(0);add(1);}}) == 0){
             isEnterprise = true;
         }
-        return new Client(name,lastName,country,BDay,isEnterprise);
+        client = new Client(name,lastName,country,BDay,isEnterprise);
+        client.printInformation();
+        return client;
     }
 }

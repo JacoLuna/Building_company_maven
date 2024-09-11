@@ -16,6 +16,7 @@ import java.util.Objects;
 
 public class Project implements Printable {
     public static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
+    protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
     LocalDate startingDate;
     LocalDate projectedEnd;
     LocalDate endingDate;
@@ -85,7 +86,7 @@ public class Project implements Printable {
     }
 
     @Override
-    public String printInformation() {
+    public void printInformation() {
         MenuService menuSrc = new MenuService();
         menuSrc.printFrame("Project","Project".length());
         menuSrc.printFrame(startingDate.toString(), 100);
@@ -99,17 +100,16 @@ public class Project implements Printable {
         menuSrc.printFrame("workers", 100);
         if (workers != null){
             for (Worker worker : workers){
-                System.out.println(worker.name + " " + worker.lastName);
+                CONSOLE.info(worker.name + " " + worker.lastName);
             }
         }
-
-        return "Project{" +
-                "startingDate=" + startingDate +
-                ", projectedEnd=" + projectedEnd +
-                ", endingDate=" + endingDate +
-                ", projectType=" + projectType +
-                ", projectName='" + projectName + '\'' +
-                ", client=" + client +
-                '}';
+        CONSOLE.info("Project{" +
+                    "startingDate=" + startingDate +
+                    ", projectedEnd=" + projectedEnd +
+                    ", endingDate=" + endingDate +
+                    ", projectType=" + projectType +
+                    ", projectName='" + projectName + '\'' +
+                    ", client=" + client +
+                    '}');
     }
 }

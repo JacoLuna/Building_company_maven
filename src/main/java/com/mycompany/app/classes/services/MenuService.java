@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
+import static com.diogonunes.jcolor.Attribute.BRIGHT_MAGENTA_BACK;
 import static com.diogonunes.jcolor.Attribute.BRIGHT_WHITE_BACK;
 import static com.diogonunes.jcolor.Attribute.BLACK_TEXT;
 import static com.diogonunes.jcolor.Ansi.colorize;
@@ -31,13 +32,13 @@ public class MenuService {
     private void printMiddleSection(String word, int middleSection) {
         for (int i = 0; i < middleSection; i++) {
             if (i == (middleSection / 2)) {
-                System.out.print(colorize(word , BLACK_TEXT(), BRIGHT_WHITE_BACK()));
+                System.out.print(colorize(word , BLACK_TEXT(), BRIGHT_MAGENTA_BACK()));
             } else {
                 if (i == middleSection - 1 || i == 0) {
                     if (i == middleSection - 1){
                         for (int j = 0; j < 3; j++) {
                             if (j != 2)
-                                System.out.print(colorize(" " , BLACK_TEXT(), BRIGHT_WHITE_BACK()));
+                                System.out.print(colorize(" " , BLACK_TEXT(), BRIGHT_MAGENTA_BACK()));
                             else
                                 System.out.print(("|\n"));
                         }
@@ -45,7 +46,7 @@ public class MenuService {
                         System.out.print(("|"));
                     }
                 } else {
-                    System.out.print(colorize(" " , BLACK_TEXT(), BRIGHT_WHITE_BACK()));
+                    System.out.print(colorize(" " , BLACK_TEXT(), BRIGHT_MAGENTA_BACK()));
                 }
             }
         }
