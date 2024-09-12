@@ -38,7 +38,7 @@ public class StructureService {
         do {
             String prompt = "What type of project do you want to do?";
             menuSrv.printMenu(prompt, typeOfProjects, prompt.length() * 2);
-            projectIndex = inputSrv.setIntAns( createIndexList(typeOfProjects.length));
+            projectIndex = inputSrv.setInput( createIndexList(typeOfProjects.length),Integer.class);
         } while (projectIndex == -1);
         return projectIndex;
     }
@@ -46,8 +46,7 @@ public class StructureService {
     private long getSquareMeters() {
         long squareMeters;
         do {
-            System.out.print("size of the project in square meters: ");
-            squareMeters = inputSrv.setLongAns(0, 100);
+            squareMeters = inputSrv.setInput("size of the project in square meters :", 0, 100, Integer.class);
         } while (squareMeters == -1);
         return squareMeters;
     }
@@ -56,7 +55,7 @@ public class StructureService {
         do {
             String prompt = "what type of soil will be used?";
             menuSrv.printMenu(prompt, typeOfSoil,prompt.length()*2);
-            soilIndex = inputSrv.setIntAns( createIndexList(typeOfSoil.length));
+            soilIndex = inputSrv.setInput(createIndexList(typeOfSoil.length), Integer.class);
         } while (soilIndex == -1);
         return soilIndex;
     }
@@ -72,28 +71,29 @@ public class StructureService {
     }
 
     private House createHouse(long squareMeters) {
-        int rooms = inputSrv.setIntAns("how many rooms will the house have?", 0, 100);
-        int bathrooms = inputSrv.setIntAns("how many bathrooms will the house have?", 0, 100);
+        int rooms = inputSrv.setInput("how many rooms will the house have?", 0, 100, Integer.class);
+        int bathrooms = inputSrv.setInput("how many bathrooms will the house have?", 0, 100, Integer.class);
         return new House(squareMeters, rooms, bathrooms);
     }
 
     private ApartmentBuilding createApartmentBuilding(long squareMeters) {
-        int storeys = inputSrv.setIntAns("how many storeys will the Apartment Building have?", 0, 100);
+        int storeys = inputSrv.setInput("how many storeys will the Apartment Building have?", 0, 100, Integer.class);
         String prompt = "will the building have an MRP?";
         menuSrv.printMenu(prompt, new String[]{"Yes", "No"},prompt.length()*2);
-        boolean MRP = inputSrv.setIntAns( Arrays.asList(0, 1)) == 0;
+        boolean MRP = inputSrv.setInput( Arrays.asList(0, 1), Integer.class) == 0;
         return new ApartmentBuilding(squareMeters, storeys, MRP);
     }
 
     private Pool createPool(long squareMeters) {
-        float depth = inputSrv.setFloatAns("how deep will the pool be?", 0, 100);
-        float temperature = inputSrv.setFloatAns("how is the temperature going to be?", 20, 30);
+        float depth = inputSrv.setInput("how deep will the pool be?", 0.0f, 100.0f, Float.class);
+        float temperature = inputSrv.setInput("how is the temperature going to be?", 20.0f, 30.0f, Float.class);
         return new Pool(squareMeters, depth, temperature);
     }
 
     private Garden createGarden(long squareMeters, String[] typeOfSoil) {
         int soilIndex = getSoilIndex(typeOfSoil);
-        float squareMetersOfSoil = inputSrv.setFloatAns("how many square meters of soil will be used?", 0, squareMeters);
+        String prompt = "how many square meters of soil will be used?";
+        float squareMetersOfSoil = inputSrv.setInput(prompt, 0.0f, (float)squareMeters, Float.class);
         return new Garden(squareMeters, TypeOfSoil.valueOf(typeOfSoil[soilIndex]), squareMetersOfSoil);
     }
 

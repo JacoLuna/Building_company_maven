@@ -69,23 +69,25 @@ public class DataService {
         List<Person> people = Stream.concat(workers.stream(), clients.stream()).toList();
         List<Person> filteredPeople = new ArrayList<>(List.of());
         filteredPeople = ( people.stream().filter( person -> {
+                    String input = StringUtils.lowerCase(value.toString());
                     switch (attribute){
                         case "type" -> {
-                            return  TypeOfPerson.valueOf(person.getType().name()).equals(value);
+                            String type = StringUtils.lowerCase(TypeOfPerson.valueOf(person.getType().name()).toString());
+                            return  type.equals(input);
                         }
                         case "id" -> {
-                            return person.getId() == (int) value;
+                            return (person.getId()+"").equals(value);
                         }
                         case "name" -> {
                             String name = StringUtils.lowerCase(person.name);
-                            String input = StringUtils.lowerCase((String) value);
                             return  name.equals(input);
                         }
                         case "lastName" -> {
                             return person.lastName.equals(value);
                         }
                         case "country" -> {
-                            return Countries.valueOf(person.getCountry().name).equals(value);
+                            String country = StringUtils.lowerCase(Countries.valueOf(person.getCountry().name).toString());
+                            return country.equals(input);
                         }
                         case "BDay" -> {
                             return person.getBDay().equals(value);
@@ -93,7 +95,8 @@ public class DataService {
                         case "experience" ->{
                             if (person.getType() == TypeOfPerson.WORKER){
                                 Worker worker = (Worker)person;
-                                return Experience.valueOf(worker.getExperience().name()).equals(value);
+                                String experience = StringUtils.lowerCase( Experience.valueOf(worker.getExperience().name()).toString());
+                                return experience.equals(input);
                             }else return false;
                         }
                         case "salary" ->{

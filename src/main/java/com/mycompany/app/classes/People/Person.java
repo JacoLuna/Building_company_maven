@@ -1,23 +1,28 @@
 package com.mycompany.app.classes.People;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mycompany.app.classes.interfaces.Disectable;
 import com.mycompany.app.classes.interfaces.Identifiable;
 import com.mycompany.app.classes.interfaces.JsonStorable;
 import com.mycompany.app.classes.interfaces.Printable;
+import com.mycompany.app.classes.services.DataService;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class Person implements Printable, Identifiable, JsonStorable {
+public abstract class Person implements Printable, Identifiable, JsonStorable, Disectable {
     protected static ObjectMapper objectMapper = new ObjectMapper();
     protected static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
     protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
-    protected TypeOfPerson type;
     private static int globalId;
     protected int id;
+    protected TypeOfPerson type;
     public String name;
     public String lastName;
     protected Countries country;
@@ -66,6 +71,15 @@ public abstract class Person implements Printable, Identifiable, JsonStorable {
     }
 
     //END SETTER
+
+    public List<String> getAttributes(){
+        Field[] fields = Person.class.getDeclaredFields();
+        List<String> attributes = new ArrayList<>();
+        for (int i = 4; i < fields.length; i++) {
+            attributes.add(fields[i].getName());
+        }
+        return attributes;
+    }
 
     @Override
     public boolean equals(Object o) {

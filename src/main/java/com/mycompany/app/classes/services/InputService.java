@@ -16,182 +16,91 @@ public class InputService {
     private static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
     private static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
     public Scanner keyboard = new Scanner(System.in);
-    private int intAns;
-    private float floatAns;
-    private long longAns;
 
-    public int getAns(){
-        return intAns;
-    }
-    public int setIntAns(String prompt, List<Integer> ansArray) {
+    public <T extends Number> T setInput(List<T> ansArray, Class<T> type){
+        T answer = null;
         boolean isValid = false;
         do {
             try {
-                    System.out.print(prompt);
-                    intAns = keyboard.nextInt();
-                    if (!ansArray.contains(intAns)){
-                        throw new MenuException("ERROR Option not available");
-                    }
-                    isValid = true;
-            }catch (InputMismatchException | MenuException e){
-                CONSOLE_ERROR.error(e);
-                keyboard.nextLine();
-            }catch (Exception e){
-                  LOGGER.error(e);
-                  return -1;
-            }
-        } while (!isValid);
-        return intAns;
-    }
-    public int setIntAns(List<Integer> ansArray) {
-        boolean isValid = false;
-        do {
-            try {
-                intAns = keyboard.nextInt();
-                if (!ansArray.contains(intAns)){
+                if (type == Integer.class) {
+                    answer = type.cast(keyboard.nextInt());
+                } else if (type == Float.class) {
+                    answer = type.cast(keyboard.nextFloat());
+                } else if (type == Long.class) {
+                    answer = type.cast(keyboard.nextLong());
+                }
+                if (!ansArray.contains(answer)){
                     throw new MenuException("ERROR Option not available");
                 }
                 isValid = true;
             }catch (InputMismatchException | MenuException e){
                 CONSOLE_ERROR.error(e);
                 keyboard.nextLine();
-            } catch (Exception e){
-                LOGGER.error("Unexpected error " + e);
+            }catch (Exception e){
+                LOGGER.error(e);
             }
-        }while (!isValid);
-        return intAns;
+        } while (!isValid);
+        return answer;
     }
-    public int setIntAns(String prompt, int minValue, int maxValue) {
+    public <T extends Number> T setInput(String prompt, List<T> ansArray, Class<T> type){
+        T answer = null;
+        boolean isValid = false;
+        do {
+            System.out.print(prompt);
+            try {
+                if (type == Integer.class) {
+                    answer = type.cast(keyboard.nextInt());
+                } else if (type == Float.class) {
+                    answer = type.cast(keyboard.nextFloat());
+                } else if (type == Long.class) {
+                    answer = type.cast(keyboard.nextLong());
+                }
+                if (!ansArray.contains(answer)){
+                    throw new MenuException("ERROR Option not available");
+                }
+                isValid = true;
+            }catch (InputMismatchException | MenuException e){
+                CONSOLE_ERROR.error(e);
+                keyboard.nextLine();
+            }catch (Exception e){
+                LOGGER.error(e);
+            }
+        } while (!isValid);
+        return answer;
+    }
+
+    public <T extends Number> T setInput(String prompt, T minValue, T maxValue, Class<T> type){
+        T answer = null;
         boolean isValid = false;
         do {
             CONSOLE.info(prompt);
             try {
-                    intAns = keyboard.nextInt();
-                    if (intAns < minValue || intAns > maxValue ){
-                        throw new MenuException("ERROR Option not available");
-                    }
-                    isValid = true;
+                if (type == Integer.class) {
+                    answer = type.cast(keyboard.nextInt());
+                } else if (type == Float.class) {
+                    answer = type.cast(keyboard.nextFloat());
+                } else if (type == Long.class) {
+                    answer = type.cast(keyboard.nextLong());
+                } else if (type == Double.class) {
+                    answer = type.cast(keyboard.nextDouble());
+                }
+                if (answer.doubleValue() < minValue.doubleValue() || answer.doubleValue() > maxValue.doubleValue()) {
+                    throw new MenuException("ERROR Option not available");
+                }
+                isValid = true;
             }catch (InputMismatchException | MenuException e){
                 CONSOLE_ERROR.error(e);
                 keyboard.nextLine();
             }catch (Exception e){
-                LOGGER.error("Unexpected error " + e);
+                LOGGER.error(e);
             }
         } while (!isValid);
-        return intAns;
-    }
-    public int setIntAns(int minValue, int maxValue) {
-        boolean isValid = false;
-        do {
-            try {
-                intAns = keyboard.nextInt();
-                if (intAns < minValue || intAns > maxValue ){
-                    throw new MenuException("ERROR Option not available");
-                }
-                isValid = true;
-            }catch (InputMismatchException | MenuException e){
-                CONSOLE_ERROR.error(e);
-                keyboard.nextLine();
-            }catch (Exception e){
-                LOGGER.error("Unexpected error " + e);
-            }
-            }while (!isValid);
-        return intAns;
-    }
-
-    public float setFloatAns(String prompt, List<Float> ansArray) {
-        try {
-            do {
-                CONSOLE.info(prompt);
-                floatAns = keyboard.nextFloat();
-                if (!ansArray.contains(floatAns)) {
-                    System.out.println("ERROR Option not available");
-                    floatAns = -1;
-                }
-            } while (intAns == -1);
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-        return floatAns;
-    }
-    public float setFloatAns(List<Float> ansArray) {
-        try {
-            floatAns = keyboard.nextFloat();
-            if (!ansArray.contains(floatAns)) {
-                floatAns = -1;
-                System.out.println("ERROR Option not available");
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-        return floatAns;
-    }
-    public float setFloatAns(String prompt, float minValue, float maxValue) {
-        boolean isValid = false;
-        do {
-            try {
-                CONSOLE.info(prompt);
-                floatAns = keyboard.nextFloat();
-                if (floatAns < minValue || floatAns > maxValue) {
-                    throw new MenuException("ERROR Option not available");
-                }
-                isValid = true;
-            }catch (InputMismatchException | MenuException e){
-                LOGGER.error(e);
-                keyboard.nextLine();
-            }catch (Exception e){
-                LOGGER.error("Unexpected error " + e);
-            }
-        }while (!isValid);
-        return floatAns;
-    }
-    public float setFloatAns(float minValue, float maxValue) {
-        boolean isValid = false;
-        do {
-            try {
-                floatAns = keyboard.nextFloat();
-                if (floatAns < minValue || floatAns > maxValue) {
-                    throw new MenuException("ERROR Option not available");
-                }
-                isValid = true;
-            }catch (InputMismatchException | MenuException e){
-                LOGGER.error(e);
-                keyboard.nextLine();
-            }catch (Exception e){
-                LOGGER.error("Unexpected error " + e);
-            }
-        }while (!isValid);
-        return floatAns;
-    }
-
-    public long setLongAns(List<Long> ansArray) {
-        try {
-            longAns = keyboard.nextLong();
-            if (!ansArray.contains(longAns)) {
-                System.out.println("ERROR Option not available");
-                longAns = -1;
-            }
-        } catch (Exception e) {
-                LOGGER.error(e);
-        }
-        return longAns;
-    }
-    public long setLongAns(long minValue, long maxValue) {
-        try {
-            longAns = keyboard.nextLong();
-            if (longAns < minValue && longAns > maxValue) {
-                System.out.println("ERROR Option not available");
-                longAns = -1;
-            }
-        } catch (Exception e) {
-                LOGGER.error(e);
-        }
-        return longAns;
+        return answer;
     }
 
     public String stringAns(String prompt){
         System.out.println(prompt);
-        return keyboard.nextLine();
+        return keyboard.next();
     }
     public LocalDate readValidDate(String prompt) {
         System.out.println(prompt);
@@ -204,9 +113,9 @@ public class InputService {
 
         while (!validDate) {
             try {
-                year = setIntAns("Enter year: ", LocalDate.MIN.getYear(), LocalDate.MAX.getYear());
-                month = setIntAns("Enter month (1-12): ", 1, 12);
-                day = setIntAns("Enter day: ", 1, 31);
+                year = setInput("Enter year: ", LocalDate.MIN.getYear(), LocalDate.MAX.getYear(), Integer.class);
+                month = setInput("Enter month (1-12): ", 1, 12, Integer.class);
+                day = setInput("Enter day: ", 1, 31, Integer.class);
                 date = LocalDate.of(year, month, day);
                 validDate = true;
             } catch (DateTimeException | IllegalArgumentException e) {
