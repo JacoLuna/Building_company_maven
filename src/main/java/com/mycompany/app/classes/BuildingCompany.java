@@ -1,5 +1,6 @@
 package com.mycompany.app.classes;
 
+import com.google.gson.Gson;
 import com.mycompany.app.classes.People.*;
 import com.mycompany.app.classes.projects.types.Structure;
 import com.mycompany.app.classes.services.*;
@@ -7,11 +8,8 @@ import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.TypeOfPerson;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
+import java.time.LocalDate;
+import java.util.*;
 
 public final class BuildingCompany {
     private static final int AMD_OPTION = 1;
@@ -38,7 +36,6 @@ public final class BuildingCompany {
     DataService dataSrv = new DataService();
     StructureService structureSrc = new StructureService();
     ProjectService projectSrv = new ProjectService();
-    FileService fileSrv = new FileService();
     PersonService personSrv = new PersonService();
     JsonService<Person> jsonService = new JsonService<>();
 
@@ -51,16 +48,12 @@ public final class BuildingCompany {
         menuActions.put(PRINT_OBJECTS_OPTION, () -> handlePrintObjectsOption());
         menuActions.put(BEGIN_PROJECT_OPTION, () -> handlePrintObjectsOption());
         menuActions.put(MANAGE_PROJECT_OPTION, () -> projectSrv.createProject());
-        menuActions.put(ERROR_REPORT_OPTION, () -> fileSrv.readFile("logs/app.log"));
+        menuActions.put(ERROR_REPORT_OPTION, () -> FileService.readFile("logs/app.log"));
 
-//        List<Person> list = dataSrv.filterPerson("country", Countries.ARGENTINA);
-//        list.forEach(Person::printInformation);
+        Collection<Worker> list = DataService.getWorkers();
+        Worker worker = (Worker) list.toArray()[0];
+        JsonService.writeJson("src\\main\\java\\com\\mycompany\\app\\files\\test.json", list);
 
-        do {
-            menuSrv.printMenu("Menu", new String[]{"Exit","AMD", "Print Objects", "My profile", "Begin Project", "Manage project", "Read error reports"});
-            ans = inputSrv.setInput(Arrays.asList(EXIT_OPTION, AMD_OPTION, PRINT_OBJECTS_OPTION, MY_PROFILE_OPTION, BEGIN_PROJECT_OPTION, MANAGE_PROJECT_OPTION, ERROR_REPORT_OPTION), Integer.class);
-            menuActions.get(ans).run();
-        } while (ans != EXIT_OPTION);
     }
 
     private void handleAMDOption(){

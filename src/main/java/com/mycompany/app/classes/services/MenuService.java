@@ -1,17 +1,13 @@
 package com.mycompany.app.classes.services;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.mycompany.app.classes.interfaces.IHasLogger;
 
 import java.util.Scanner;
 import static com.diogonunes.jcolor.Attribute.BRIGHT_MAGENTA_BACK;
-import static com.diogonunes.jcolor.Attribute.BRIGHT_WHITE_BACK;
 import static com.diogonunes.jcolor.Attribute.BLACK_TEXT;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
-public class MenuService {
-    public static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
-    public static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
+public class MenuService implements IHasLogger {
     InputService inputSrv = new InputService();
     Scanner keyboard = new Scanner(System.in);
 

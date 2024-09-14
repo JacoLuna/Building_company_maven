@@ -1,78 +1,66 @@
 package com.mycompany.app.classes.People;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mycompany.app.classes.interfaces.Disectable;
-import com.mycompany.app.classes.interfaces.Identifiable;
-import com.mycompany.app.classes.interfaces.JsonStorable;
-import com.mycompany.app.classes.interfaces.Printable;
-import com.mycompany.app.classes.services.DataService;
+import com.mycompany.app.classes.interfaces.*;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Person implements Printable, Identifiable, JsonStorable, Disectable {
-    protected static ObjectMapper objectMapper = new ObjectMapper();
-    protected static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
-    protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
-    private static int globalId;
+public abstract class Person implements Printable, Disectable {
     protected int id;
     protected TypeOfPerson type;
     public String name;
     public String lastName;
     protected Countries country;
-    LocalDate BDay;
-
-    static {
-        globalId = 0;
-    }
+    public LocalDate BDay;
 
     public Person() {
     }
+
     public Person(String name, String lastName, Countries country, LocalDate BDay) {
-        setId();
         this.name = name;
         this.lastName = lastName;
         this.country = country;
         this.BDay = BDay;
     }
 
-    public static int getGlobalId() {
-        return globalId;
-    }
-    @Override
-    public final int getId() {
+    //START GETTERS
+    public int getId() {
         return id;
     }
-
     public TypeOfPerson getType() {
         return type;
     }
-    public Countries getCountry(){
+    public String getName() {
+        return name;
+    }
+    public String getLastName() {
+        return lastName;
+    }
+    public Countries getCountry() {
         return country;
     }
-    public LocalDate getBDay(){
+    public LocalDate getBDay() {
         return BDay;
     }
+    //END GETTERS
     //START SETTERS
-    private static void setGlobalId() {
-        Person.globalId++;
-    }
-    @Override
-    public final void setId() {
-        int value = getGlobalId();
-        this.id = value++;
-        setGlobalId();
-    }
 
     //END SETTER
 
-    public List<String> getAttributes(){
+//    public <Person> void parseToJson(Person person) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        try {
+//            objectMapper.writeValue(new File("src\\main\\java\\com\\mycompany\\app\\files\\test.json"), person);
+//        }catch (Exception e){
+//            e.getStackTrace();
+//        }
+//    }
+
+    public List<String> getAttributes() {
         Field[] fields = Person.class.getDeclaredFields();
         List<String> attributes = new ArrayList<>();
         for (int i = 4; i < fields.length; i++) {
@@ -90,13 +78,13 @@ public abstract class Person implements Printable, Identifiable, JsonStorable, D
                 type.equals(person.type) &&
                 name.equals(person.name) &&
                 lastName.equals(person.lastName) &&
-                country.equals( person.country) &&
+                country.equals(person.country) &&
                 BDay.equals(person.BDay);
     }
 
     @Override
     public int hashCode() {
-        return 21 * getId() + type.hashCode() + name.hashCode() + lastName.hashCode() + country.hashCode() + BDay.hashCode() ;
+        return 21 * getId() + type.hashCode() + name.hashCode() + lastName.hashCode() + country.hashCode() + BDay.hashCode();
     }
 
     @Override
@@ -109,8 +97,5 @@ public abstract class Person implements Printable, Identifiable, JsonStorable, D
                 ", country='" + country.name + '\'' +
                 ", BDay=" + BDay +
                 '}';
-
-//                ", project=" + ArraysList.toString(projects) +
-//                '}';
     }
 }

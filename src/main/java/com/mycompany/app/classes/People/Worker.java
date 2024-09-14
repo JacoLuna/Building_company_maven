@@ -6,12 +6,12 @@ import com.mycompany.app.enums.TypeOfPerson;
 
 import java.time.LocalDate;
 
+import static com.mycompany.app.classes.interfaces.IHasLogger.CONSOLE;
 public class Worker extends Person{
     private float salary;
     private Experience experience;
 
-    public Worker() {
-        super();
+    public Worker(){
     }
 
     public Worker(String name, String lastName, Countries country, LocalDate BDay, float salary, Experience experience) {
@@ -27,11 +27,6 @@ public class Worker extends Person{
 
     public Experience getExperience() {
         return experience;
-    }
-
-    @Override
-    public Object readJsonFile(String path) {
-        return null;
     }
 
     @Override

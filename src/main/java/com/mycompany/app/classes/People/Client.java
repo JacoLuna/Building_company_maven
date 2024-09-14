@@ -5,11 +5,10 @@ import com.mycompany.app.classes.projects.Project;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
 
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
+import static com.mycompany.app.classes.interfaces.IHasLogger.CONSOLE;
 public class Client extends Person implements IHasProjects {
     boolean isEnterprise;
     int amountOfProjects;
@@ -26,11 +25,6 @@ public class Client extends Person implements IHasProjects {
 
     public int getAmountOfProjects() {
         return amountOfProjects;
-    }
-
-    @Override
-    public Client readJsonFile(String path){
-        return null;
     }
 
     @Override

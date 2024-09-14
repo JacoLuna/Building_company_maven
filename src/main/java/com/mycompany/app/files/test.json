@@ -1,1 +1,42 @@
-{"type":"WORKER","id":1,"name":"jaco","lastName":"luna"}
+[
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 0,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "lona",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 0,
+    "type": "WORKER",
+    "name": "Tomas",
+    "lastName": "Piorini",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 0,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "luna",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 0,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "Pierini",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  }
+]

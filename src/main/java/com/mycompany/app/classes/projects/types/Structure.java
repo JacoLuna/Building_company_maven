@@ -1,12 +1,11 @@
 package com.mycompany.app.classes.projects.types;
 
-import com.mycompany.app.classes.interfaces.Identifiable;
 import com.mycompany.app.classes.interfaces.Printable;
 import com.mycompany.app.enums.TypeOfProject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class Structure implements Printable, Identifiable {
+public abstract class Structure implements Printable {
     protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
     private static int globalId;
     protected int id;
@@ -26,18 +25,13 @@ public abstract class Structure implements Printable, Identifiable {
     public static int getGlobalId() {
         return globalId;
     }
-    @Override
+
     public final int getId() {
         return id;
     }
+
     private static void setGlobalId() {
         Structure.globalId++;
-    }
-    @Override
-    public final void setId() {
-        int value = getGlobalId();
-        this.id = value++;
-        setGlobalId();
     }
 
     protected String generalInfo(){

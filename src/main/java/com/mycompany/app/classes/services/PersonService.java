@@ -75,12 +75,12 @@ public class PersonService {
         int attIndex;
         String answer, prompt;
         DataService dataSrv = new DataService();
-//        Field[] fields = Person.class.getDeclaredFields();
-        Person testPerson = new Worker();
-        List<String>  attributes = test(() -> testPerson.getAttributes());
-//        for (int i = 4; i < fields.length; i++) {
-//            attributes.add(fields[i].getName());
-//        }
+        Field[] fields = Person.class.getDeclaredFields();
+        List<String> attributes = new ArrayList<>();
+
+        for (int i = 4; i < fields.length; i++) {
+            attributes.add(fields[i].getName());
+        }
 
         attributes.forEach(System.out::println);
         String[] attributesString = new String[attributes.size()];
@@ -90,6 +90,7 @@ public class PersonService {
             attributesString[i] = attributes.get(i);
             attributesIndex.add(i);
         }
+
         prompt = "By what attributes do you want to filter";
         menuSrv.printMenu(prompt, attributesString, prompt.length()*2);
         attIndex = inputSrv.setInput(attributesIndex, Integer.class);
@@ -101,9 +102,5 @@ public class PersonService {
                     System.out.println("Information of " + person.name);
                     person.printInformation();
                 });
-    }
-
-    public List<String> test(Disectable disectable){
-        return disectable.getAttributes();
     }
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DataService {
@@ -67,8 +68,7 @@ public class DataService {
 
     public List<Person> filterPerson(String attribute, Object value){
         List<Person> people = Stream.concat(workers.stream(), clients.stream()).toList();
-        List<Person> filteredPeople = new ArrayList<>(List.of());
-        filteredPeople = ( people.stream().filter( person -> {
+        return people.stream().filter( person -> {
                     String input = StringUtils.lowerCase(value.toString());
                     switch (attribute){
                         case "type" -> {
@@ -125,7 +125,6 @@ public class DataService {
                         }
                     }
                 }
-        ).toList() );
-        return filteredPeople;
+        ).collect(Collectors.toList());
     }
 }
