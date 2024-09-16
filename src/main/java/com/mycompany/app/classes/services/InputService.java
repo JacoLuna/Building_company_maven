@@ -113,9 +113,9 @@ public class InputService {
 
         while (!validDate) {
             try {
-                year = setInput("Enter year: ", LocalDate.MIN.getYear(), LocalDate.MAX.getYear(), Integer.class);
+                year = setInput("Enter year (" + LocalDate.MIN.getYear() + "-" +  LocalDate.MAX.getYear() + "): ", LocalDate.MIN.getYear(), LocalDate.MAX.getYear(), Integer.class);
                 month = setInput("Enter month (1-12): ", 1, 12, Integer.class);
-                day = setInput("Enter day: ", 1, 31, Integer.class);
+                day = setInput("Enter day (1-31): ", 1, 31, Integer.class);
                 date = LocalDate.of(year, month, day);
                 validDate = true;
             } catch (DateTimeException | IllegalArgumentException e) {

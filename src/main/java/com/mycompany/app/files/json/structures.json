@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "HOUSE",
+    "price": 1500000.0,
+    "squareMeters": 30,
+    "rooms": 5,
+    "bathrooms": 2
+  },
+  {
+    "id": 2,
+    "name": "APARTMENT",
+    "price": 1500000.0,
+    "squareMeters": 30,
+    "storeys": 10,
+    "MRP": true
+  },
+  {
+    "id": 3,
+    "name": "GARDEN",
+    "price": 750000.0,
+    "squareMeters": 15,
+    "typeOfSoil": "PEAT",
+    "squareMetersOfSoil": 10.0
+  },
+  {
+    "id": 4,
+    "name": "POOL",
+    "price": 1500000.0,
+    "squareMeters": 30,
+    "depth": 10.0,
+    "temperature": 24.0
+  }
+]

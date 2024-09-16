@@ -1,0 +1,12 @@
+[
+  {
+    "isEnterprise": false,
+    "amountOfProjects": 0,
+    "id": 1,
+    "type": "CLIENT",
+    "name": "Jaco",
+    "lastName": "perez",
+    "country": "CHINA",
+    "BDay": "1990-08-05"
+  }
+]

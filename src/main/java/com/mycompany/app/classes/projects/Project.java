@@ -3,20 +3,18 @@ package com.mycompany.app.classes.projects;
 import com.mycompany.app.classes.Exceptions.WorkerException;
 import com.mycompany.app.classes.People.Client;
 import com.mycompany.app.classes.People.Worker;
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.interfaces.Printable;
 import com.mycompany.app.classes.services.MenuService;
 import com.mycompany.app.enums.TypeOfProject;
 import com.mycompany.app.enums.WorkerExceptionCode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Project implements Printable {
-    public static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
-    protected static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
+    int id;
     LocalDate startingDate;
     LocalDate projectedEnd;
     LocalDate endingDate;
@@ -34,8 +32,12 @@ public class Project implements Printable {
         this.workers = new ArrayList<>();
     }
 
+    public ArrayList<Worker> getWorkers() {
+        return workers;
+    }
+
     public void setWorkers(ArrayList<Worker> workers) {
-        this.workers = workers;
+        workers.forEach(w -> addWorker(w));
     }
     public void addWorker(Worker worker){
         try {
@@ -49,7 +51,7 @@ public class Project implements Printable {
             this.workers.add(worker);
         }
         catch (WorkerException workerException){
-            CONSOLE_ERROR.error(workerException.getMessage());
+            Utils.CONSOLE_ERROR.error(workerException.getMessage());
         }
     }
     public void setEndingDate(LocalDate endingDate) {
@@ -100,10 +102,10 @@ public class Project implements Printable {
         menuSrc.printFrame("workers", 100);
         if (workers != null){
             for (Worker worker : workers){
-                CONSOLE.info(worker.name + " " + worker.lastName);
+                Utils.CONSOLE.info(worker.name + " " + worker.lastName);
             }
         }
-        CONSOLE.info("Project{" +
+        Utils.CONSOLE.info("Project{" +
                     "startingDate=" + startingDate +
                     ", projectedEnd=" + projectedEnd +
                     ", endingDate=" + endingDate +

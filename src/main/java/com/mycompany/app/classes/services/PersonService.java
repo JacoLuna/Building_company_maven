@@ -1,16 +1,17 @@
 package com.mycompany.app.classes.services;
 
 import com.mycompany.app.classes.People.*;
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.interfaces.Disectable;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.TypeOfPerson;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class PersonService {
 
@@ -26,23 +27,16 @@ public class PersonService {
         name = inputSrv.stringAns("Name:");
         lastName = inputSrv.stringAns("lastName:");
         menuSrv.printMenu("Country: ", countries);
-        country = countries[inputSrv.setInput(createIndexList(countries.length),Integer.class)];
+        country = countries[inputSrv.setInput(Utils.createIndexList(countries.length),Integer.class)];
         BDay = inputSrv.readValidDate("Birthday");
         prompt = "Type of person: ";
         menuSrv.printMenu(prompt, typeOfPersonArray, prompt.length() * 2);
-        personIndex = inputSrv.setInput(createIndexList(typeOfPersonArray.length),Integer.class);
+        personIndex = inputSrv.setInput(Utils.createIndexList(typeOfPersonArray.length),Integer.class);
         return switch (personIndex) {
             case 0, 1 -> createEmployee(name, lastName, Countries.valueOf(country), BDay, TypeOfPerson.valueOf(typeOfPersonArray[personIndex]));
             case 2 -> createClient(name, lastName, Countries.valueOf(country), BDay);
             default -> null;
         };
-    }
-    private List<Integer> createIndexList(int length) {
-        List<Integer> indexList = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            indexList.add(i);
-        }
-        return indexList;
     }
 
     private Worker createEmployee(String name,String lastName,Countries country,LocalDate BDay, TypeOfPerson typeOfPerson) {
@@ -52,7 +46,7 @@ public class PersonService {
         Worker worker;
         String prompt = "experience level: ";
         menuSrv.printMenu(prompt, experience, prompt.length() * 2);
-        experienceIndex = inputSrv.setInput(createIndexList(experience.length), Integer.class);
+        experienceIndex = inputSrv.setInput(Utils.createIndexList(experience.length), Integer.class);
         salary = inputSrv.setInput("Salary: ", 0.0f, 100000000.0f, Float.class);
         worker = new Worker(name,lastName,country,BDay,salary,Experience.valueOf(experience[experienceIndex]));
         worker.printInformation();
@@ -71,18 +65,20 @@ public class PersonService {
         return client;
     }
 
-    public void filterPeople(){
+    public void filterPeople() {
         int attIndex;
         String answer, prompt;
         DataService dataSrv = new DataService();
         Field[] fields = Person.class.getDeclaredFields();
+        Field[] workerFields = Worker.class.getDeclaredFields();
+        Field[] clientFields = Client.class.getDeclaredFields();
+        Field[] allField = concatArrays(fields,concatArrays(clientFields, workerFields));
+
         List<String> attributes = new ArrayList<>();
 
-        for (int i = 4; i < fields.length; i++) {
-            attributes.add(fields[i].getName());
+        for (Field field : allField) {
+            attributes.add(field.getName());
         }
-
-        attributes.forEach(System.out::println);
         String[] attributesString = new String[attributes.size()];
         List<Integer> attributesIndex = new ArrayList<>();
 
@@ -102,5 +98,10 @@ public class PersonService {
                     System.out.println("Information of " + person.name);
                     person.printInformation();
                 });
+    }
+
+    private  <T> T[] concatArrays(T[] array1, T[] array2) {
+        return Stream.concat(Arrays.stream(array1), Arrays.stream(array2))
+                .toArray(size -> (T[]) Array.newInstance(array1.getClass().getComponentType(), size));
     }
 }

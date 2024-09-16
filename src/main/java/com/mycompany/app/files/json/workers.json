@@ -1,0 +1,72 @@
+[
+  {
+    "salary": 50000.0,
+    "experience": "MANAGER",
+    "id": 1,
+    "type": "WORKER",
+    "name": "roberto",
+    "lastName": "carlos",
+    "country": "ARGENTINA",
+    "BDay": "1980-05-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "SENIOR",
+    "id": 5,
+    "type": "WORKER",
+    "name": "Tame",
+    "lastName": "impala",
+    "country": "UUSS",
+    "BDay": "1993-03-12"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 3,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "Pierini",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 2,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "luna",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 6,
+    "type": "WORKER",
+    "name": "Tomas",
+    "lastName": "Piorini",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 1500.0,
+    "experience": "JUNIOR",
+    "id": 4,
+    "type": "WORKER",
+    "name": "Jaco",
+    "lastName": "lona",
+    "country": "ARGENTINA",
+    "BDay": "1990-08-05"
+  },
+  {
+    "salary": 45000.0,
+    "experience": "SENIOR",
+    "id": 7,
+    "type": "WORKER",
+    "name": "carlos",
+    "lastName": "roberto",
+    "country": "CHINA",
+    "BDay": "1985-01-01"
+  }
+]

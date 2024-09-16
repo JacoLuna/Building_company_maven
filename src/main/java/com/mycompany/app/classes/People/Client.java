@@ -1,5 +1,6 @@
 package com.mycompany.app.classes.People;
 
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.interfaces.IHasProjects;
 import com.mycompany.app.classes.projects.Project;
 import com.mycompany.app.enums.Countries;
@@ -8,7 +9,6 @@ import com.mycompany.app.enums.TypeOfPerson;
 import java.time.LocalDate;
 import java.util.LinkedList;
 
-import static com.mycompany.app.classes.interfaces.IHasLogger.CONSOLE;
 public class Client extends Person implements IHasProjects {
     boolean isEnterprise;
     int amountOfProjects;
@@ -29,7 +29,7 @@ public class Client extends Person implements IHasProjects {
 
     @Override
     public void printInformation() {
-        CONSOLE.info("name: " + name +
+        Utils.CONSOLE.info("name: " + name +
                     " lastName: " + lastName +
                     " country: " + country +
                     " BDay: " + BDay +

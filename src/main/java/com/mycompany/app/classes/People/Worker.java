@@ -1,12 +1,12 @@
 package com.mycompany.app.classes.People;
 
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.TypeOfPerson;
 
 import java.time.LocalDate;
 
-import static com.mycompany.app.classes.interfaces.IHasLogger.CONSOLE;
 public class Worker extends Person{
     private float salary;
     private Experience experience;
@@ -31,7 +31,7 @@ public class Worker extends Person{
 
     @Override
     public void printInformation() {
-        CONSOLE.info("name: " + name +
+        Utils.CONSOLE.info("name: " + name +
                 " lastName: " + lastName +
                 " country: " + country +
                 " salary: " + salary +

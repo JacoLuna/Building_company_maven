@@ -1,13 +1,13 @@
 package com.mycompany.app.classes.services;
 
-import com.mycompany.app.classes.interfaces.IHasLogger;
+import com.mycompany.app.classes.Utils;
 
 import java.util.Scanner;
 import static com.diogonunes.jcolor.Attribute.BRIGHT_MAGENTA_BACK;
 import static com.diogonunes.jcolor.Attribute.BLACK_TEXT;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
-public class MenuService implements IHasLogger {
+public class MenuService {
     InputService inputSrv = new InputService();
     Scanner keyboard = new Scanner(System.in);
 
@@ -49,14 +49,14 @@ public class MenuService implements IHasLogger {
     }
     public void printMenu(String title, String[] ans) {
         printFrame(title);
-        CONSOLE.info(buildMenuString(ans));
+        Utils.CONSOLE.info(buildMenuString(ans));
     }
     public void printMenu(String title, String[] ans, int frame) {
         printFrame(title, frame);
-        CONSOLE.info(buildMenuString(ans));
+        Utils.CONSOLE.info(buildMenuString(ans));
     }
     public void printMenu(String[] ans) {
-        CONSOLE.info(buildMenuString(ans));
+        Utils.CONSOLE.info(buildMenuString(ans));
     }
     private String buildMenuString(String[] ans) {
         StringBuilder sb = new StringBuilder();

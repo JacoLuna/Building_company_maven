@@ -1,5 +1,6 @@
 package com.mycompany.app.classes.services;
 
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.projects.types.*;
 import com.mycompany.app.enums.TypeOfProject;
 import com.mycompany.app.enums.TypeOfSoil;
@@ -11,7 +12,7 @@ import java.util.List;
 public class StructureService {
 
     InputService inputSrv = new InputService();
-    MenuService menuSrv = new MenuService();
+    private MenuService menuSrv = new MenuService();
     
     public Structure createStructure() {
         String[] typeOfProjects = Arrays.stream(TypeOfProject.values()).map(Enum::name).toArray(String[]::new);
@@ -38,7 +39,7 @@ public class StructureService {
         do {
             String prompt = "What type of project do you want to do?";
             menuSrv.printMenu(prompt, typeOfProjects, prompt.length() * 2);
-            projectIndex = inputSrv.setInput( createIndexList(typeOfProjects.length),Integer.class);
+            projectIndex = inputSrv.setInput(Utils.createIndexList(typeOfProjects.length),Integer.class);
         } while (projectIndex == -1);
         return projectIndex;
     }
@@ -55,7 +56,7 @@ public class StructureService {
         do {
             String prompt = "what type of soil will be used?";
             menuSrv.printMenu(prompt, typeOfSoil,prompt.length()*2);
-            soilIndex = inputSrv.setInput(createIndexList(typeOfSoil.length), Integer.class);
+            soilIndex = inputSrv.setInput(Utils.createIndexList(typeOfSoil.length), Integer.class);
         } while (soilIndex == -1);
         return soilIndex;
     }
@@ -95,13 +96,5 @@ public class StructureService {
         String prompt = "how many square meters of soil will be used?";
         float squareMetersOfSoil = inputSrv.setInput(prompt, 0.0f, (float)squareMeters, Float.class);
         return new Garden(squareMeters, TypeOfSoil.valueOf(typeOfSoil[soilIndex]), squareMetersOfSoil);
-    }
-
-    private List<Integer> createIndexList(int length) {
-        List<Integer> indexList = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            indexList.add(i);
-        }
-        return indexList;
     }
 }

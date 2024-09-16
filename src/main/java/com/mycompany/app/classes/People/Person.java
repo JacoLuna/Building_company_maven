@@ -1,15 +1,16 @@
 package com.mycompany.app.classes.People;
 
 import com.mycompany.app.classes.interfaces.*;
+import com.mycompany.app.classes.projects.types.Structure;
+import com.mycompany.app.classes.services.DataService;
 import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.TypeOfPerson;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
-public abstract class Person implements Printable, Disectable {
+public abstract class Person implements Printable {
     protected int id;
     protected TypeOfPerson type;
     public String name;
@@ -25,6 +26,7 @@ public abstract class Person implements Printable, Disectable {
         this.lastName = lastName;
         this.country = country;
         this.BDay = BDay;
+        setId();
     }
 
     //START GETTERS
@@ -47,28 +49,27 @@ public abstract class Person implements Printable, Disectable {
         return BDay;
     }
     //END GETTERS
-    //START SETTERS
 
+    //START SETTERS
+    public void setId() {
+        this.id = getLastId(getType()) + 1;
+    }
     //END SETTER
 
-//    public <Person> void parseToJson(Person person) {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        try {
-//            objectMapper.writeValue(new File("src\\main\\java\\com\\mycompany\\app\\files\\test.json"), person);
-//        }catch (Exception e){
-//            e.getStackTrace();
-//        }
-//    }
-
-    public List<String> getAttributes() {
-        Field[] fields = Person.class.getDeclaredFields();
-        List<String> attributes = new ArrayList<>();
-        for (int i = 4; i < fields.length; i++) {
-            attributes.add(fields[i].getName());
+    public int getLastId(TypeOfPerson typeOfPerson){
+        Set<Worker> workers;
+        Set<Client> clients;
+        if (typeOfPerson == TypeOfPerson.CLIENT){
+            clients = (Set<Client>) DataService.getClients();
+            Optional<Client> lastPerson = clients.stream().max(Comparator.comparing(Person::getId));
+            return lastPerson.get().id;
         }
-        return attributes;
+        else{
+            workers = (Set<Worker>) DataService.getWorkers();
+            Optional<Worker> lastPerson = workers.stream().max(Comparator.comparing(Person::getId));
+            return lastPerson.get().id;
+        }
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
