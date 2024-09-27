@@ -1,12 +1,1 @@
-[
-  {
-    "isEnterprise": false,
-    "amountOfProjects": 0,
-    "id": 1,
-    "type": "CLIENT",
-    "name": "Jaco",
-    "lastName": "perez",
-    "country": "CHINA",
-    "BDay": "1990-08-05"
-  }
-]
+[{"isEnterprise":true,"amountOfProjects":0,"id":8,"type":"CLIENT","name":"Esteban","lastName":"Quito","country":"ARGENTINA","BDay":"+19990-05-05"},{"isEnterprise":false,"amountOfProjects":0,"id":1,"type":"CLIENT","name":"Jaco","lastName":"perez","country":"CHINA","BDay":"1990-08-05"}]

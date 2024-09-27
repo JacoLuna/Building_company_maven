@@ -3,6 +3,7 @@ package com.mycompany.app.classes.services;
 import com.mycompany.app.classes.People.Client;
 import com.mycompany.app.classes.People.Person;
 import com.mycompany.app.classes.People.Worker;
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.projects.Project;
 import com.mycompany.app.classes.projects.types.*;
 import com.mycompany.app.enums.*;
@@ -13,10 +14,10 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
-public class DataService {
+public class DataService implements Runnable{
     private static Set<Client> clients = new HashSet<>();
     private static Set<Worker> workers = new HashSet<>();
     private static Set<Structure> structures = new HashSet<>();
@@ -27,6 +28,15 @@ public class DataService {
         workers = createWorkers();
         structures = createStructures();
         projects = createProjects();
+    }    @Override
+    public void run() {
+        instantiateAll();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Utils.CONSOLE.info("The program is loaded");
     }
     private Set<Client> createClients(){
         String file = "clients.json";
@@ -116,69 +126,5 @@ public class DataService {
     //END ADD TO SETS
     public static ArrayList<Project> getProjects() {
         return projects;
-    }
-
-    public List<Person> filterPerson(String attribute, Object value){
-        List<Person> people = Stream.concat(workers.stream(), clients.stream()).toList();
-        return people.stream().filter( person -> {
-                    String input = StringUtils.lowerCase(value.toString());
-                    switch (attribute){
-                        case "type" -> {
-                            String type = StringUtils.lowerCase(TypeOfPerson.valueOf(person.getType().name()).toString());
-                            return  type.equals(input);
-                        }
-                        case "id" -> {
-                            return (person.getId()+"").equals(value);
-                        }
-                        case "name" -> {
-                            String name = StringUtils.lowerCase(person.name);
-                            return  name.equals(input);
-                        }
-                        case "lastName" -> {
-                            return person.lastName.equals(value);
-                        }
-                        case "country" -> {
-                            String country = StringUtils.lowerCase(Countries.valueOf(person.getCountry().name).toString());
-                            return country.equals(input);
-                        }
-                        case "BDay" -> {
-                            return person.getBDay().equals(value);
-                        }
-                        case "experience" ->{
-                            if (person.getType() == TypeOfPerson.WORKER){
-                                Worker worker = (Worker)person;
-                                String experience = StringUtils.lowerCase( Experience.valueOf(worker.getExperience().name()).toString());
-                                return experience.equals(input);
-                            }else return false;
-                        }
-                        case "salary" ->{
-                            if (person.getType() == TypeOfPerson.WORKER){
-                                Worker worker = (Worker)person;
-                                return worker.getSalary() == (float)value;
-                            }else return false;
-                        }
-                        case "isEnterprise" ->{
-                            if (person.getType() == TypeOfPerson.CLIENT){
-                                Client client = (Client) person;
-                                return switch ((String) value) {
-                                    case "true", "1" -> client.isEnterprise();
-                                    case "false", "0" -> !client.isEnterprise();
-                                    default -> false;
-                                };
-                            }else
-                                return false;
-                        }
-                        case "amountOfProjects" -> {
-                            if (person.getType() == TypeOfPerson.CLIENT){
-                                Client client = (Client) person;
-                                return client.getAmountOfProjects() == (int) value;
-                            }else return false;
-                        }
-                        default -> {
-                            return false;
-                        }
-                    }
-                }
-        ).collect(Collectors.toList());
     }
 }

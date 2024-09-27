@@ -14,7 +14,7 @@ public class FileService {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(localFile?folder + "\\" + path : path))){
             while ((line = br.readLine()) != null) {
-                sb.append(line);
+                sb.append(line).append("\n");
             }
         } catch (FileNotFoundException ex) {
             System.out.println("An error occurred." + ex.getMessage());

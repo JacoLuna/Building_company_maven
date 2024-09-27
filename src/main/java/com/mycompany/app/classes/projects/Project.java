@@ -105,13 +105,5 @@ public class Project implements Printable {
                 Utils.CONSOLE.info(worker.name + " " + worker.lastName);
             }
         }
-        Utils.CONSOLE.info("Project{" +
-                    "startingDate=" + startingDate +
-                    ", projectedEnd=" + projectedEnd +
-                    ", endingDate=" + endingDate +
-                    ", projectType=" + projectType +
-                    ", projectName='" + projectName + '\'' +
-                    ", client=" + client +
-                    '}');
     }
 }

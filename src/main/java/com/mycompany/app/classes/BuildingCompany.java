@@ -8,6 +8,7 @@ import com.mycompany.app.enums.Countries;
 import com.mycompany.app.enums.Experience;
 import com.mycompany.app.enums.TypeOfPerson;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -26,31 +27,36 @@ public final class BuildingCompany {
     private static final int ADD_STRUCTURE_OPTION = 1;
     private static final int FILTER_STRUCTURE_OPTION = 2;
 
-    MenuService menuSrv = new MenuService();
-    InputService inputSrv = new InputService();
     DataService dataSrv = new DataService();
     StructureService structureSrv = new StructureService();
     ProjectService projectSrv = new ProjectService();
     PersonService personSrv = new PersonService();
 
     Map<Integer, Runnable> menuActions = new HashMap<>();
+
+    Thread dataThread;
     public void startProgram() {
         int ans;
-        dataSrv.instantiateAll();
+
+        dataThread = (new Thread(dataSrv));
+        dataThread.start();
 
         menuActions.put(PEOPLE_OPTION, this::handlePeopleOption);
         menuActions.put(STRUCTURE_OPTION, this::handleStructureOption);
         menuActions.put(BEGIN_PROJECT_OPTION, () -> DataService.getStructures().add(structureSrv.createStructure()));
         menuActions.put(MANAGE_PROJECT_OPTION, () -> DataService.getProjects().add(projectSrv.createProject()));
-        menuActions.put(ERROR_REPORT_OPTION, () -> FileService.readFile("logs/app.log", false));
+        menuActions.put(ERROR_REPORT_OPTION, () -> Utils.CONSOLE.info(FileService.readFile("logs/app.log", false)));
 
         do {
-            menuSrv.printMenu("Menu", new String[]{"Exit","People", "Structures", "My profile", "Begin Project", "Manage project", "Read error reports"});
-            ans = inputSrv.
+            MenuService.printMenu("Menu", new String[]{"Exit","People", "Structures", "My profile", "Begin Project", "Manage project", "Read error reports"});
+            ans = InputService.
                     setInput(Arrays.asList(EXIT_OPTION,PEOPLE_OPTION, STRUCTURE_OPTION, MY_PROFILE_OPTION, BEGIN_PROJECT_OPTION, MANAGE_PROJECT_OPTION, ERROR_REPORT_OPTION), 
                              Integer.class);
-            if (ans != EXIT_OPTION)
-                menuActions.get(ans).run();
+            if (ans != EXIT_OPTION){
+                if (dataThread.isAlive() && ans != ERROR_REPORT_OPTION){
+                    Utils.CONSOLE.info("The program is still loading please wait, you may see the error reports meanwhile");
+                }else menuActions.get(ans).run();
+            }
         } while (ans != EXIT_OPTION);
     }
 
@@ -58,8 +64,8 @@ public final class BuildingCompany {
         Person person = null;
         int ans;
         do {
-            menuSrv.printMenu("AMD",new String[]{"Exit", "Add people", "Filter people"});
-            ans = inputSrv.setInput(Arrays.asList(EXIT_OPTION, ADD_PEOPLE_OPTION, FILTER_PEOPLE_OPTION), Integer.class);
+            MenuService.printMenu("AMD",new String[]{"Exit", "Add people", "Filter people"});
+            ans = InputService.setInput(Arrays.asList(EXIT_OPTION, ADD_PEOPLE_OPTION, FILTER_PEOPLE_OPTION), Integer.class);
             switch (ans){
                 case  ADD_PEOPLE_OPTION:
                     person = personSrv.createPerson();
@@ -78,9 +84,9 @@ public final class BuildingCompany {
     private void handleStructureOption(){
         int ans;
         do {
-            menuSrv.printMenu("Objects",new String[]{"Exit", "Add Structure", "Filter Structures", "Structures"});
+            MenuService.printMenu("Objects",new String[]{"Exit", "Add Structure", "Filter Structures", "Structures"});
             //TODO
-            ans = inputSrv.setInput(Arrays.asList(EXIT_OPTION, ADD_STRUCTURE_OPTION, FILTER_STRUCTURE_OPTION), Integer.class);
+            ans = InputService.setInput(Arrays.asList(EXIT_OPTION, ADD_STRUCTURE_OPTION, FILTER_STRUCTURE_OPTION), Integer.class);
             switch (ans){
                 case ADD_STRUCTURE_OPTION:
                     structureSrv.createStructure();

@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.mycompany.app.classes.People.Person;
+import com.mycompany.app.classes.Utils;
 import com.mycompany.app.classes.projects.types.*;
 import com.mycompany.app.enums.TypeOfProject;
 import com.mycompany.app.enums.TypeOfSoil;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class JsonService<T extends Person> {
             String jsonData = FileService.readFile(folder + "\\" + filePath, true);
             return GSON.fromJson(jsonData, clazz);
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.CONSOLE_ERROR.error(e.getMessage());
             return null;
         }
     }
@@ -47,7 +47,7 @@ public class JsonService<T extends Person> {
             Type listType = TypeToken.getParameterized(List.class, clazz).getType();
             return GSON.fromJson(jsonData, listType);
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.CONSOLE_ERROR.error(e.getMessage());
             return null;
         }
     }
@@ -57,7 +57,7 @@ public class JsonService<T extends Person> {
             String jsonData = GSON.toJson(data);
             FileService.writeFile(folder + "\\" + filePath, jsonData, true);
         } catch (Exception e) {
-            e.printStackTrace();
+            Utils.CONSOLE_ERROR.error(e.getMessage());
         }
     }
 

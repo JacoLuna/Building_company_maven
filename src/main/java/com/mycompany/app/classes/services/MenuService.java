@@ -8,24 +8,21 @@ import static com.diogonunes.jcolor.Attribute.BLACK_TEXT;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
 public class MenuService {
-    InputService inputSrv = new InputService();
-    Scanner keyboard = new Scanner(System.in);
-
-    public void printFrame(String word, int frame) {
+    public static void printFrame(String word, int frame) {
         int middleSection = frame - word.length() - 1;
         printLine(frame);
         printMiddleSection(word, middleSection);
         printLine(frame);
     }
-    public void printFrame(String word) {
+    public static void printFrame(String word) {
         printFrame(word, 30);
     }
-    private void printLine(int frame) {
+    private static void printLine(int frame) {
         for (int i = 0; i < frame; i++) {
             System.out.print("-" + ((i == frame - 1) ? "\n" : ""));
         }
     }
-    private void printMiddleSection(String word, int middleSection) {
+    private static void printMiddleSection(String word, int middleSection) {
         for (int i = 0; i < middleSection; i++) {
             if (i == (middleSection / 2)) {
                 System.out.print(colorize(word , BLACK_TEXT(), BRIGHT_MAGENTA_BACK()));
@@ -47,18 +44,18 @@ public class MenuService {
             }
         }
     }
-    public void printMenu(String title, String[] ans) {
+    public static void printMenu(String title, String[] ans) {
         printFrame(title);
         Utils.CONSOLE.info(buildMenuString(ans));
     }
-    public void printMenu(String title, String[] ans, int frame) {
+    public static void printMenu(String title, String[] ans, int frame) {
         printFrame(title, frame);
         Utils.CONSOLE.info(buildMenuString(ans));
     }
-    public void printMenu(String[] ans) {
+    public static void printMenu(String[] ans) {
         Utils.CONSOLE.info(buildMenuString(ans));
     }
-    private String buildMenuString(String[] ans) {
+    private static String buildMenuString(String[] ans) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < ans.length; i++) {
             sb.append("-").append(i).append(" ").append(ans[i]).append("\n");

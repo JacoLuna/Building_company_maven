@@ -15,9 +15,9 @@ public class InputService {
     private static final Logger FILE = LogManager.getLogger("FileOnlyLogger");
     private static final Logger CONSOLE_ERROR = LogManager.getLogger("ConsoleErrorLogger");
     private static final Logger CONSOLE = LogManager.getLogger("ConsoleLogger");
-    public Scanner keyboard = new Scanner(System.in);
+    public static  Scanner keyboard = new Scanner(System.in);
 
-    public <T extends Number> T setInput(List<T> ansArray, Class<T> type){
+    public static <T extends Number> T setInput(List<T> ansArray, Class<T> type){
         T answer = null;
         boolean isValid = false;
         do {
@@ -42,7 +42,7 @@ public class InputService {
         } while (!isValid);
         return answer;
     }
-    public <T extends Number> T setInput(String prompt, List<T> ansArray, Class<T> type){
+    public static  <T extends Number> T setInput(String prompt, List<T> ansArray, Class<T> type){
         T answer = null;
         boolean isValid = false;
         do {
@@ -69,7 +69,7 @@ public class InputService {
         return answer;
     }
 
-    public <T extends Number> T setInput(String prompt, T minValue, T maxValue, Class<T> type){
+    public static <T extends Number> T setInput(String prompt, T minValue, T maxValue, Class<T> type){
         T answer = null;
         boolean isValid = false;
         do {
@@ -98,15 +98,15 @@ public class InputService {
         return answer;
     }
 
-    public String stringAns(String prompt){
+    public static String stringAns(String prompt){
         System.out.println(prompt);
         return keyboard.next();
     }
-    public LocalDate readValidDate(String prompt) {
+    public static LocalDate readValidDate(String prompt) {
         System.out.println(prompt);
         return readValidDate();
     }
-    public LocalDate readValidDate() {
+    public static LocalDate readValidDate() {
         int year, month, day;
         boolean validDate = false;
         LocalDate date = null;
